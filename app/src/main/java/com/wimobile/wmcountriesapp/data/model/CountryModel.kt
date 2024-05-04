@@ -2,7 +2,7 @@ package com.wimobile.wmcountriesapp.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class CountryModel <T>(
+data class CountryModel (
     @SerializedName("name") var name: Name? = Name(),
     @SerializedName("tld") var tld: ArrayList<String> = arrayListOf(),
     @SerializedName("cca2") var cca2: String? = null,
@@ -28,7 +28,7 @@ data class CountryModel <T>(
     @SerializedName("flag") var flag: String? = null,
     @SerializedName("maps") var maps: Maps? = Maps(),
     @SerializedName("population") var population: Int? = null,
-    @SerializedName("gini") var gini: T? = null,
+    @SerializedName("gini") var gini: Map<String, Double>? = null,
     @SerializedName("fifa") var fifa: String? = null,
     @SerializedName("car") var car: Car? = Car(),
     @SerializedName("timezones") var timezones: ArrayList<String> = arrayListOf(),

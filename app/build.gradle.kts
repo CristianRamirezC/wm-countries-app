@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -7,10 +10,21 @@ plugins {
 }
 
 android {
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     namespace = "com.wimobile.wmcountriesapp"
     compileSdk = 34
 
+    val prop = Properties()
+    prop.load(FileInputStream("network.properties"))
+
     defaultConfig {
+
+
+
         applicationId = "com.wimobile.wmcountriesapp"
         minSdk = 24
         targetSdk = 34
@@ -18,6 +32,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL", prop.getProperty("BASE_URL"))
+        buildConfigField("String", "GET_ALL_COUNTRIES", prop.getProperty("ALL_COUNTRIES"))
     }
 
     viewBinding{
