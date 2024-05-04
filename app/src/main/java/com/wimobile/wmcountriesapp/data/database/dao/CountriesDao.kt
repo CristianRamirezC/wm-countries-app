@@ -7,13 +7,18 @@ import androidx.room.Query
 import com.wimobile.wmcountriesapp.BuildConfig
 import com.wimobile.wmcountriesapp.data.database.entities.CountryEntity
 
+private const val tableName = BuildConfig.COUNTRIES_TABLE_NAME
+
 @Dao
 interface CountriesDao {
 
-    @Query("SELECT * FROM ${BuildConfig.COUNTRIES_TABLE_NAME}")
+    @Query("SELECT * FROM $tableName")
     suspend fun getAllCountries(): List<CountryEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllCountries(countries: List<CountryEntity>)
+
+    @Query("SELECT * FROM $tableName WHERE fifa = :fifa")
+    suspend fun getCountryByFifa(fifa: String): CountryEntity
 
 }

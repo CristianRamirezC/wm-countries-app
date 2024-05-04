@@ -1,4 +1,4 @@
-package com.wimobile.wmcountriesapp.data.model
+package com.wimobile.wmcountriesapp.domain.model
 
 import com.google.gson.annotations.SerializedName
 import com.wimobile.wmcountriesapp.data.database.entities.CountryEntity
@@ -6,16 +6,16 @@ import com.wimobile.wmcountriesapp.data.database.entities.FlagsEntity
 import com.wimobile.wmcountriesapp.data.database.entities.NameEntity
 import com.wimobile.wmcountriesapp.data.database.entities.NativeNameEntity
 import com.wimobile.wmcountriesapp.data.database.entities.RonEntity
-import com.wimobile.wmcountriesapp.domain.model.CountryDomain
-import com.wimobile.wmcountriesapp.domain.model.FlagsDomain
-import com.wimobile.wmcountriesapp.domain.model.NameDomain
-import com.wimobile.wmcountriesapp.domain.model.NativeNameDomain
-import com.wimobile.wmcountriesapp.domain.model.RonDomain
+import com.wimobile.wmcountriesapp.data.model.CountryModel
+import com.wimobile.wmcountriesapp.data.model.FlagsModel
+import com.wimobile.wmcountriesapp.data.model.NameModel
+import com.wimobile.wmcountriesapp.data.model.NativeNameModel
+import com.wimobile.wmcountriesapp.data.model.RonModel
 
-data class CountryModel(
+data class CountryDomain(
     //Main data
-    @SerializedName("name") var name: NameModel? = NameModel(),
-    @SerializedName("flags") var flags: FlagsModel? = FlagsModel(),
+    @SerializedName("name") var name: NameDomain? = NameDomain(),
+    @SerializedName("flags") var flags: FlagsDomain? = FlagsDomain(),
     @SerializedName("capital") var capital: List<String> = listOf(),
 
     //Extra data
@@ -29,32 +29,33 @@ data class CountryModel(
     @SerializedName("fifa") var fifa: String? = null,
 )
 
-data class RonModel(
-    @SerializedName("official") var official: String? = null,
-    @SerializedName("common") var common: String? = null
-)
 
-data class NativeNameModel(
-    @SerializedName("ron") var ron: RonModel? = RonModel()
-)
-
-data class NameModel(
+data class NameDomain(
     @SerializedName("common") var common: String? = null,
     @SerializedName("official") var official: String? = null,
-    @SerializedName("nativeName") var nativeName: NativeNameModel? = NativeNameModel()
+    @SerializedName("nativeName") var nativeName: NativeNameDomain? = NativeNameDomain()
 )
 
-data class FlagsModel(
+data class NativeNameDomain(
+    @SerializedName("ron") var ron: RonDomain? = RonDomain()
+)
+
+data class FlagsDomain(
     @SerializedName("png") var png: String? = null,
     @SerializedName("svg") var svg: String? = null,
     @SerializedName("alt") var alt: String? = null
 )
 
-/////////// mapper Entity -> Model ///////////////////
+data class RonDomain(
+    @SerializedName("official") var official: String? = null,
+    @SerializedName("common") var common: String? = null
+)
 
-fun CountryEntity.toModel() = CountryModel(
-    name = name?.toModel(),
-    flags = flags?.toModel(),
+/////////// mapper Model-> Domain ///////////////////
+
+fun CountryModel.toDomain() = CountryDomain(
+    name = name?.toDomain(),
+    flags = flags?.toDomain(),
     capital = capital,
     area = area,
     population = population,
@@ -64,30 +65,29 @@ fun CountryEntity.toModel() = CountryModel(
     fifa = fifa
 )
 
-fun NameEntity.toModel() = NameModel(
+fun NameModel.toDomain() = NameDomain(
     common = common,
     official = official,
-    nativeName = nativeName?.toModel()
+    nativeName = nativeName?.toDomain()
 )
 
-fun NativeNameEntity.toModel() = NativeNameModel(
-    ron = ron?.toModel()
+fun NativeNameModel.toDomain() = NativeNameDomain(
+    ron = ron?.toDomain()
 )
 
-fun RonEntity.toModel() = RonModel(
+fun RonModel.toDomain() = RonDomain(
     official = official, common = common
 )
 
-fun FlagsEntity.toModel() = FlagsModel(
+fun FlagsModel.toDomain() = FlagsDomain(
     png = png, svg = svg, alt = alt
 )
 
+/////////// mapper Entities -> Domain ///////////////////
 
-/////////// mapper Domain -> Model ///////////////////
-
-fun CountryDomain.toModel() = CountryModel(
-    name = name?.toModel(),
-    flags = flags?.toModel(),
+fun CountryEntity.toDomain() = CountryDomain(
+    name = name?.toDomain(),
+    flags = flags?.toDomain(),
     capital = capital,
     area = area,
     population = population,
@@ -97,21 +97,25 @@ fun CountryDomain.toModel() = CountryModel(
     fifa = fifa
 )
 
-fun NameDomain.toModel() = NameModel(
+fun NameEntity.toDomain() = NameDomain(
     common = common,
     official = official,
-    nativeName = nativeName?.toModel()
+    nativeName = nativeName?.toDomain()
 )
 
-fun NativeNameDomain.toModel() = NativeNameModel(
-    ron = ron?.toModel()
+fun NativeNameEntity.toDomain() = NativeNameDomain(
+    ron = ron?.toDomain()
 )
 
-fun RonDomain.toModel() = RonModel(
+fun RonEntity.toDomain() = RonDomain(
     official = official, common = common
 )
 
-fun FlagsDomain.toModel() = FlagsModel(
+fun FlagsEntity.toDomain() = FlagsDomain(
     png = png, svg = svg, alt = alt
 )
+
+
+
+
 
