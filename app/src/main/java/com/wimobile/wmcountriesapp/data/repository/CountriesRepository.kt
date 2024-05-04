@@ -16,22 +16,28 @@ class CountriesRepository @Inject constructor(
     private val countriesDao: CountriesDao
 ) {
 
+    /** Fetch countries data from API **/
     suspend fun getAllCountriesAPI(): NetworkResult<List<CountryModel>> {
         return HandleApi.handleGetApi {
             apiService.getAllCountries()
         }
     }
 
+    /** fetch countries data from database **/
     suspend fun getAllCountriesDDBB(): List<CountryDomain> {
         val countriesEntity: List<CountryEntity> = countriesDao.getAllCountries()
         return countriesEntity.map { it.toDomain() }
     }
 
+    /** fetch information fo country by fifa.
+     * fifa example: CANADA=CAN
+     * **/
     suspend fun getCountryByFifa(fifa: String): CountryDomain {
         val countryEntity = countriesDao.getCountryByFifa(fifa)
         return countryEntity.toDomain()
     }
 
+    /** store countries on database **/
     suspend fun storeAllCountriesDDBB(countries: List<CountryDomain>) {
         val countriesEntity: List<CountryEntity> = countries.map { it.toEntity() }
         countriesDao.insertAllCountries(countriesEntity)

@@ -3,6 +3,8 @@ package com.wimobile.wmcountriesapp.data.database
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.wimobile.wmcountriesapp.data.database.entities.FlagsEntity
+import com.wimobile.wmcountriesapp.data.database.entities.NameEntity
 import com.wimobile.wmcountriesapp.data.model.FlagsModel
 import com.wimobile.wmcountriesapp.data.model.NameModel
 
@@ -21,26 +23,26 @@ class CountryConverters {
     }
 
     @TypeConverter
-    fun toName(nameString: String): NameModel {
-        val type = object : TypeToken<NameModel>() {}.type
+    fun toName(nameString: String): NameEntity {
+        val type = object : TypeToken<NameEntity>() {}.type
         return Gson().fromJson(nameString, type)
     }
 
     @TypeConverter
-    fun fromName(nameObject: NameModel): String {
-        val type = object : TypeToken<NameModel>() {}.type
+    fun fromName(nameObject: NameEntity): String {
+        val type = object : TypeToken<NameEntity>() {}.type
         return Gson().toJson(nameObject, type)
     }
 
     @TypeConverter
-    fun toFlags(flagsString: String): FlagsModel {
-        val type = object :TypeToken<FlagsModel>(){}.type
+    fun toFlags(flagsString: String): FlagsEntity {
+        val type = object :TypeToken<FlagsEntity>(){}.type
         return Gson().fromJson(flagsString, type)
     }
 
     @TypeConverter
-    fun fromFlags(flags: FlagsModel): String {
-        val type = object :TypeToken<FlagsModel>(){}.type
+    fun fromFlags(flags: FlagsEntity): String {
+        val type = object :TypeToken<FlagsEntity>(){}.type
         return Gson().toJson(flags, type)
     }
 }
