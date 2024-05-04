@@ -7,7 +7,6 @@ import javax.inject.Inject
 class CountriesApiService @Inject constructor(
     private val apiClient: CountriesApiClient
 ) {
-
     suspend fun getAllCountries(): Response<List<CountryModel>> {
         return apiClient.getAllCountries()
     }

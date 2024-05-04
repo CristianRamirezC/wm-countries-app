@@ -20,6 +20,7 @@ android {
 
     val prop = Properties()
     prop.load(FileInputStream("network.properties"))
+    prop.load(FileInputStream("database.properties"))
 
     defaultConfig {
 
@@ -35,6 +36,8 @@ android {
 
         buildConfigField("String", "BASE_URL", prop.getProperty("BASE_URL"))
         buildConfigField("String", "GET_ALL_COUNTRIES", prop.getProperty("ALL_COUNTRIES"))
+        buildConfigField("String", "DATABASE_NAME", prop.getProperty("DATABASE_NAME"))
+        buildConfigField("String", "COUNTRIES_TABLE_NAME", prop.getProperty("COUNTRIES_TABLE_NAME"))
     }
 
     viewBinding{

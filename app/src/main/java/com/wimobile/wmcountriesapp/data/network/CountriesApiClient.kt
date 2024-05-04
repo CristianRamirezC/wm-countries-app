@@ -8,7 +8,7 @@ import retrofit2.http.GET
 
 interface CountriesApiClient {
 
-    @GET(BuildConfig.BASE_URL)
+    @GET(BuildConfig.GET_ALL_COUNTRIES)
     suspend fun getAllCountries(): Response<List<CountryModel>>
 
 }
