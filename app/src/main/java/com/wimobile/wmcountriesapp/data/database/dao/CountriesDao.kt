@@ -21,4 +21,7 @@ interface CountriesDao {
     @Query("SELECT * FROM $tableName WHERE fifa = :fifa")
     suspend fun getCountryByFifa(fifa: String): CountryEntity
 
+    @Query("SELECT * FROM $tableName WHERE name = :name")
+    suspend fun getCountryByName(name: String): CountryEntity
+
 }
