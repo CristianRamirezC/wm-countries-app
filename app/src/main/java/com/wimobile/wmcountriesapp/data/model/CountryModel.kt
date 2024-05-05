@@ -4,12 +4,10 @@ import com.google.gson.annotations.SerializedName
 import com.wimobile.wmcountriesapp.data.database.entities.CountryEntity
 import com.wimobile.wmcountriesapp.data.database.entities.FlagsEntity
 import com.wimobile.wmcountriesapp.data.database.entities.NameEntity
-import com.wimobile.wmcountriesapp.data.database.entities.NativeNameEntity
 import com.wimobile.wmcountriesapp.data.database.entities.RonEntity
 import com.wimobile.wmcountriesapp.domain.model.CountryDomain
 import com.wimobile.wmcountriesapp.domain.model.FlagsDomain
 import com.wimobile.wmcountriesapp.domain.model.NameDomain
-import com.wimobile.wmcountriesapp.domain.model.NativeNameDomain
 import com.wimobile.wmcountriesapp.domain.model.RonDomain
 
 data class CountryModel(
@@ -19,7 +17,7 @@ data class CountryModel(
     @SerializedName("capital") var capital: List<String> = listOf(),
 
     //Extra data
-    @SerializedName("area") var area: Int? = null,
+    @SerializedName("area") var area: Double? = null,
     @SerializedName("population") var population: Int? = null,
     @SerializedName("region") var region: String? = null,
     @SerializedName("subregion") var subregion: String? = null,
@@ -34,14 +32,14 @@ data class RonModel(
     @SerializedName("common") var common: String? = null
 )
 
-data class NativeNameModel(
-    @SerializedName("ron") var ron: RonModel? = RonModel()
-)
+//data class NativeNameModel(
+//    @SerializedName("ron") var ron: RonModel? = RonModel()
+//)
 
 data class NameModel(
     @SerializedName("common") var common: String? = null,
     @SerializedName("official") var official: String? = null,
-    @SerializedName("nativeName") var nativeName: NativeNameModel? = NativeNameModel()
+    @SerializedName("nativeName") var nativeName: Map<String, RonModel>? = null
 )
 
 data class FlagsModel(
@@ -67,12 +65,13 @@ fun CountryEntity.toModel() = CountryModel(
 fun NameEntity.toModel() = NameModel(
     common = common,
     official = official,
-    nativeName = nativeName?.toModel()
+//    nativeName = nativeName?.toModel()
+    nativeName = nativeName
 )
 
-fun NativeNameEntity.toModel() = NativeNameModel(
-    ron = ron?.toModel()
-)
+//fun NativeNameEntity.toModel() = NativeNameModel(
+//    ron = ron?.toModel()
+//)
 
 fun RonEntity.toModel() = RonModel(
     official = official, common = common
@@ -100,12 +99,13 @@ fun CountryDomain.toModel() = CountryModel(
 fun NameDomain.toModel() = NameModel(
     common = common,
     official = official,
-    nativeName = nativeName?.toModel()
+//    nativeName = nativeName?.toModel()
+    nativeName = nativeName
 )
 
-fun NativeNameDomain.toModel() = NativeNameModel(
-    ron = ron?.toModel()
-)
+//fun NativeNameDomain.toModel() = NativeNameModel(
+//    ron = ron?.toModel()
+//)
 
 fun RonDomain.toModel() = RonModel(
     official = official, common = common

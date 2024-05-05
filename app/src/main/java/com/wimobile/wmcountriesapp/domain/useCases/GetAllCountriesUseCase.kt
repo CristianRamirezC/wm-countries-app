@@ -20,11 +20,11 @@ class GetAllCountriesUseCase @Inject constructor(
 
         return when (apiResponse) {
             is NetworkResult.ApiSuccess -> {
-                val countriesDomain: List<CountryDomain> =
+                val countriesList: List<CountryDomain> =
                     apiResponse.data.map { it.toDomain() }
                 //Store countries from API in the database
-                countriesRepository.storeAllCountriesDDBB(countriesDomain)
-                apiResponse.data.map { it.toDomain() }
+                countriesRepository.storeAllCountriesDDBB(countriesList)
+                countriesList
             }
 
             is NetworkResult.ApiError -> countriesRepository.getAllCountriesDDBB()

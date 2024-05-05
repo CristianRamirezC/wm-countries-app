@@ -4,12 +4,10 @@ import com.google.gson.annotations.SerializedName
 import com.wimobile.wmcountriesapp.data.database.entities.CountryEntity
 import com.wimobile.wmcountriesapp.data.database.entities.FlagsEntity
 import com.wimobile.wmcountriesapp.data.database.entities.NameEntity
-import com.wimobile.wmcountriesapp.data.database.entities.NativeNameEntity
 import com.wimobile.wmcountriesapp.data.database.entities.RonEntity
 import com.wimobile.wmcountriesapp.data.model.CountryModel
 import com.wimobile.wmcountriesapp.data.model.FlagsModel
 import com.wimobile.wmcountriesapp.data.model.NameModel
-import com.wimobile.wmcountriesapp.data.model.NativeNameModel
 import com.wimobile.wmcountriesapp.data.model.RonModel
 
 data class CountryDomain(
@@ -19,7 +17,7 @@ data class CountryDomain(
     @SerializedName("capital") var capital: List<String> = listOf(),
 
     //Extra data
-    @SerializedName("area") var area: Int? = null,
+    @SerializedName("area") var area: Double? = null,
     @SerializedName("population") var population: Int? = null,
     @SerializedName("region") var region: String? = null,
     @SerializedName("subregion") var subregion: String? = null,
@@ -29,16 +27,15 @@ data class CountryDomain(
     @SerializedName("fifa") var fifa: String? = null,
 )
 
-
 data class NameDomain(
     @SerializedName("common") var common: String? = null,
     @SerializedName("official") var official: String? = null,
-    @SerializedName("nativeName") var nativeName: NativeNameDomain? = NativeNameDomain()
+    @SerializedName("nativeName") var nativeName: Map<String, RonModel>? = null
 )
 
-data class NativeNameDomain(
-    @SerializedName("ron") var ron: RonDomain? = RonDomain()
-)
+//data class NativeNameDomain(
+//    @SerializedName("ron") var ron: RonDomain? = RonDomain()
+//)
 
 data class FlagsDomain(
     @SerializedName("png") var png: String? = null,
@@ -68,12 +65,13 @@ fun CountryModel.toDomain() = CountryDomain(
 fun NameModel.toDomain() = NameDomain(
     common = common,
     official = official,
-    nativeName = nativeName?.toDomain()
+//    nativeName = nativeName?.toDomain()
+    nativeName = nativeName
 )
 
-fun NativeNameModel.toDomain() = NativeNameDomain(
-    ron = ron?.toDomain()
-)
+//fun NativeNameModel.toDomain() = NativeNameDomain(
+//    ron = ron?.toDomain()
+//)
 
 fun RonModel.toDomain() = RonDomain(
     official = official, common = common
@@ -100,12 +98,13 @@ fun CountryEntity.toDomain() = CountryDomain(
 fun NameEntity.toDomain() = NameDomain(
     common = common,
     official = official,
-    nativeName = nativeName?.toDomain()
+//    nativeName = nativeName?.toDomain()
+    nativeName = nativeName
 )
 
-fun NativeNameEntity.toDomain() = NativeNameDomain(
-    ron = ron?.toDomain()
-)
+//fun NativeNameEntity.toDomain() = NativeNameDomain(
+//    ron = ron?.toDomain()
+//)
 
 fun RonEntity.toDomain() = RonDomain(
     official = official, common = common

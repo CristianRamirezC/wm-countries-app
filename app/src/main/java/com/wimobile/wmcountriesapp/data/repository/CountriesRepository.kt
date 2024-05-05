@@ -44,8 +44,10 @@ class CountriesRepository @Inject constructor(
     }
 
     suspend fun getCountryByName(name: String): CountryDomain {
-        val countryEntity = countriesDao.getCountryByName(name)
-        return countryEntity.toDomain()
+//        val countryEntity = countriesDao.getCountryByName(name)
+        return countriesDao.getAllCountries().find {
+            it.name?.common == name
+        }?.toDomain() ?: CountryDomain()
     }
 
 

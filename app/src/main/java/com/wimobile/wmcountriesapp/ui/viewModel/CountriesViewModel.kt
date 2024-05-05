@@ -21,7 +21,6 @@ class CountriesViewModel @Inject constructor(
     private val getCountryByNameUseCase: GetCountryByNameUseCase
 ) : ViewModel() {
 
-
     private var _countriesList: MutableLiveData<List<CountryDomain>> = MutableLiveData()
     val countriesList: LiveData<List<CountryDomain>> = _countriesList
 
@@ -43,8 +42,12 @@ class CountriesViewModel @Inject constructor(
     private var _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun onSearchBarChanged(searchBarString: String) {
-        _searchBar.value = searchBarString
+    fun onSearchBarChanged(searchBarString: String?) {
+        try {
+            _searchBar.value = searchBarString ?: ""
+        } catch (e: Exception) {
+            Log.e("onSearchBarChangedException", e.stackTraceToString())
+        }
     }
 
     fun onSearchButtonPressed() {
@@ -65,6 +68,7 @@ class CountriesViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val countries: List<CountryDomain> = getAllCountriesUseCase()
+                Log.i("AllCountries", "$countries")
                 _countriesList.postValue(countries)
             } catch (e: Exception) {
                 Log.e("getAllCountriesException", e.stackTraceToString())
