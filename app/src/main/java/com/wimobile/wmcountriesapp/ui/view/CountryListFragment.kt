@@ -44,16 +44,21 @@ class CountryListFragment : Fragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 Log.i("setOnQueryTextListener", "$newText")
                 countriesViewModel.onSearchBarChanged(newText)
+//                countriesViewModel.onSearchButtonPressed()
                 return false
             }
 
             override fun onQueryTextSubmit(query: String?): Boolean {
-                countriesViewModel.onSearchButtonPressed()
+//                countriesViewModel.onSearchButtonPressed()
                 return false
             }
         })
 
-        countriesViewModel.countrySearchResult.observe(viewLifecycleOwner) {
+        countriesViewModel.countrySearchResultLiveData.observe(viewLifecycleOwner) {
+            textViewTest.text = it.toString()
+        }
+
+        countriesViewModel.countriesListLiveData.observe(viewLifecycleOwner) {
             textViewTest.text = it.toString()
         }
 

@@ -19,9 +19,10 @@ interface CountriesDao {
     suspend fun insertAllCountries(countries: List<CountryEntity>)
 
     @Query("SELECT * FROM $tableName WHERE fifa = :fifa")
-    suspend fun getCountryByFifa(fifa: String): CountryEntity
+    suspend fun getCountryByFifa(fifa: String): CountryEntity?
 
-    @Query("SELECT * FROM $tableName WHERE name = :name")
-    suspend fun getCountryByName(name: String): CountryEntity
+    @Query("SELECT * FROM $tableName WHERE common_name LIKE '%' || :name || '%'" +
+            "OR official_name LIKE '%' || :name || '%'")
+    suspend fun getCountriesByName(name: String): List<CountryEntity>
 
 }

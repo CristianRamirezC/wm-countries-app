@@ -16,7 +16,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:queryHint="Nombre de una ciudad..."
+        app:queryHint="@string/search_bar_hint"
         android:background="@drawable/search_bar_background"/>
 
     <TextView

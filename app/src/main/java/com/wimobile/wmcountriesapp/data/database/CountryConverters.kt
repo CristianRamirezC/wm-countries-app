@@ -4,9 +4,6 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.wimobile.wmcountriesapp.data.database.entities.FlagsEntity
-import com.wimobile.wmcountriesapp.data.database.entities.NameEntity
-import com.wimobile.wmcountriesapp.data.model.FlagsModel
-import com.wimobile.wmcountriesapp.data.model.NameModel
 
 class CountryConverters {
 
@@ -20,18 +17,6 @@ class CountryConverters {
     fun fromStringList(stringList: List<String>): String {
         val type = object : TypeToken<List<String>>() {}.type
         return Gson().toJson(stringList, type)
-    }
-
-    @TypeConverter
-    fun toName(nameString: String): NameEntity {
-        val type = object : TypeToken<NameEntity>() {}.type
-        return Gson().fromJson(nameString, type)
-    }
-
-    @TypeConverter
-    fun fromName(nameObject: NameEntity): String {
-        val type = object : TypeToken<NameEntity>() {}.type
-        return Gson().toJson(nameObject, type)
     }
 
     @TypeConverter
