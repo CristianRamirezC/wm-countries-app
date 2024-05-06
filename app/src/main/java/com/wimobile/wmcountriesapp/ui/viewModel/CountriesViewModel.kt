@@ -42,42 +42,43 @@ class CountriesViewModel @Inject constructor(
     fun onSearchBarChanged(searchBarString: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val barString: String = searchBarString ?: ""
-                val countriesByNameList: List<CountryDomain> = getCountriesByNameUseCase(barString)
-                if (countriesByNameList.isNotEmpty()) {
-                    _countrySearchResultLiveData.postValue(countriesByNameList)
+                if (searchBarString.isNullOrBlank()) {
+                    getAllCountries()
                 }
             } catch (e: Exception) {
                 Log.e("onSearchBarChangedException", e.stackTraceToString())
             }
         }
-
     }
 
-    fun getAllCountries() {
+    fun onSearchButtonPressed(query: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                val countries: List<CountryDomain>? = getCountriesByNameUseCase(query ?: "")
+                if (countries.isNullOrEmpty()) {
+                    _countrySearchResultLiveData.postValue(listOf())
+                } else {
+                    _countrySearchResultLiveData.postValue(countries)
+                }
+            } catch (e: Exception) {
+                Log.e("onSearchButtonPressedException", e.stackTraceToString())
+            }
+        }
+    }
+
+    private fun getAllCountries() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                Log.i("getCountriesExecuted", "getAllCountries executed")
+                _isLoadingLiveData.postValue(true)
                 val countries: List<CountryDomain> = getAllCountriesUseCase()
-                Log.i("AllCountries", "$countries")
                 _countriesListLivaData.postValue(countries)
+                _isLoadingLiveData.postValue(false)
             } catch (e: Exception) {
                 Log.e("getAllCountriesException", e.stackTraceToString())
             }
         }
     }
-
-//    fun getCountryByFifa(fifa: String) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-//                val country: CountryDomain? = getCountryByFifaUseCase(fifa)
-//                if (country != null) {
-//                    _countryToDisplayDetailLiveData.postValue(country!!)
-//                }
-//            } catch (e: Exception) {
-//                Log.e("getCountryByFifaException", e.stackTraceToString())
-//            }
-//        }
-//    }
 
     fun getCountryByOfficialName(officialName: String) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -8,7 +8,7 @@ class GetCountriesByNameUseCase @Inject constructor(
     private val countriesRepository: CountriesRepository
 ) {
 
-    suspend operator fun invoke(name: String): List<CountryDomain> {
+    suspend operator fun invoke(name: String): List<CountryDomain>? {
         return countriesRepository.getCountriesByName(name)
     }
 }

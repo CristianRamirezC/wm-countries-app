@@ -21,6 +21,8 @@ class GetAllCountriesUseCase @Inject constructor(
         val countriesFromDB: List<CountryDomain> =
             countriesRepository.getAllCountriesDDBB().map { it.toDomain() }
 
+//        val countriesFromDB: List<CountryDomain> = listOf()
+
         return countriesFromDB.ifEmpty {
             val apiResponse: NetworkResult<List<CountryModel>> =
                 countriesRepository.getAllCountriesAPI()

@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import com.wimobile.wmcountriesapp.databinding.FragmentCountryListBinding
 import com.wimobile.wmcountriesapp.ui.viewModel.CountriesViewModel
@@ -17,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wimobile.wmcountriesapp.ui.view.adapter.CountryAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.wimobile.wmcountriesapp.domain.model.CountryDomain
 
 @AndroidEntryPoint
 class CountryListFragment : Fragment() {
@@ -27,6 +30,8 @@ class CountryListFragment : Fragment() {
 
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
+    private lateinit var noMatchesFoundView: TextView
+    private lateinit var shimmerLayout: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +43,6 @@ class CountryListFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentCountryListBinding.inflate(inflater, container, false)
-        countriesViewModel.getAllCountries()
-
         return _binding.root
     }
 
@@ -55,43 +58,64 @@ class CountryListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         searchView.setQuery("", false)
-//        countriesViewModel.onSearchBarChanged("")
     }
 
     private fun setUpViewBinding() {
         searchView = _binding.searchBarSV
         recyclerView = _binding.recyclerCountriesRV
+        noMatchesFoundView = _binding.tvNoMAtchesFound
+        shimmerLayout = _binding.shimmerLayout
     }
 
     private fun setUpViews() {
-
         searchView.setOnQueryTextListener(object : OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
-                Log.i("setOnQueryTextListener", "$newText")
                 countriesViewModel.onSearchBarChanged(newText)
                 return false
             }
 
             override fun onQueryTextSubmit(query: String?): Boolean {
-//                countriesViewModel.onSearchButtonPressed()
+                countriesViewModel.onSearchButtonPressed(query)
                 searchView.clearFocus()
                 return false
             }
         })
+        
     }
 
     private fun setUpLiveDataObservers() {
-        countriesViewModel.countrySearchResultLiveData.observe(viewLifecycleOwner) {
-            recyclerView.adapter = CountryAdapter(it) {
+        countriesViewModel.countrySearchResultLiveData.observe(viewLifecycleOwner) { countriesFound ->
+            setUpNoMatchesFoundVisibility(countriesFound)
+            recyclerView.adapter = CountryAdapter(countriesFound) { country ->
+                navigateToCountryDetail(country)
+            }
+        }
+
+        countriesViewModel.countriesListLiveData.observe(viewLifecycleOwner) { initialCountries ->
+            setUpNoMatchesFoundVisibility(initialCountries)
+            recyclerView.adapter = CountryAdapter(initialCountries) {
                 navigateToCountryDetail(it)
             }
         }
 
-        countriesViewModel.countriesListLiveData.observe(viewLifecycleOwner) {
-            recyclerView.adapter = CountryAdapter(it) {
-                navigateToCountryDetail(it)
+        countriesViewModel.isLoadingLiveData.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                shimmerLayout.visibility = View.VISIBLE
+                recyclerView.visibility = View.INVISIBLE
+            } else {
+                shimmerLayout.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun setUpNoMatchesFoundVisibility(countries: List<CountryDomain>?) {
+        if (countries.isNullOrEmpty()) {
+            noMatchesFoundView.visibility = View.VISIBLE
+        } else {
+            noMatchesFoundView.visibility = View.GONE
+        }
+
     }
 
     private fun initRecyclerView() {
@@ -111,14 +135,6 @@ class CountryListFragment : Fragment() {
             navController.navigate(direction)
         } catch (e: Exception) {
             Log.e("navigateToCountryDetail", e.stackTraceToString())
-        }
-    }
-
-    private fun setOnClickListeners() {
-        try {
-
-        } catch (e: Exception) {
-            Log.e("setOnClickListenersException", e.stackTraceToString())
         }
     }
 

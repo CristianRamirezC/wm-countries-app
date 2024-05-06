@@ -44,11 +44,11 @@ class CountriesRepository @Inject constructor(
         countriesDao.insertAllCountries(countriesListEntity)
     }
 
-    suspend fun getCountriesByName(name: String): List<CountryDomain> {
-        val countryList: List<CountryDomain> =
-            countriesDao.getCountriesByName(name).map { it.toDomain() }
+    suspend fun getCountriesByName(name: String): List<CountryDomain>? {
+        val countryList: List<CountryDomain>? =
+            countriesDao.getCountriesByName(name)?.map { it.toDomain() }
 
-        return countryList.filter {
+        return countryList?.filter {
             it.name?.common?.contains(name, true) ?: false
         }
     }
