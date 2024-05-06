@@ -23,12 +23,12 @@ envía dicha información por medio de observables a los cuales las vistas está
   <li>Corrutinas</li>
   <li>Navigation Component</li>
   <li>Consumo de API con Retrofit</li>
+  <li>Unit testing con Junit y Mockk</li>
   <li>LiveData</li>
   <li>Recycler View</li>
   <li>Gson</li>
   <li>Glide</li>
   <li>Room Type converters</li>
-  <li>Unit testing con Junit y Mockk</li>
   <li>Shimmer View</li>
   <li>ViewBinding</li>
   <li>Model Mappers usando funciones de extensión</li>
