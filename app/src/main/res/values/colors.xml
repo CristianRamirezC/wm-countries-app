@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="search_bar_stroke_color">#3876f6</color>
+
+    <color name="shimmer_views_color">#C8C8C9</color>
+
 </resources>

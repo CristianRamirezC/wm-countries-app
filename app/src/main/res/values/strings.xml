@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">wmCountriesApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_bar_hint">Enter a country name …</string>
+    <string name="country_flag_description">Country Flag</string>
+    <string name="official_name_title">Official Name: </string>
+    <string name="capital_title">Capital: </string>
+    <string name="area_title">Area: </string>
+    <string name="population_title">Population: </string>
+    <string name="region_title">Region: </string>
+    <string name="subregion_title">Subregion: </string>
+    <string name="border_countries_title">Border countries: </string>
+    <string name="no_matches_found">Oops! No matches found</string>
 </resources>

@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -7,10 +10,20 @@ plugins {
 }
 
 android {
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     namespace = "com.wimobile.wmcountriesapp"
     compileSdk = 34
 
+    val prop = Properties()
+    prop.load(FileInputStream("network.properties"))
+    prop.load(FileInputStream("database.properties"))
+
     defaultConfig {
+
         applicationId = "com.wimobile.wmcountriesapp"
         minSdk = 24
         targetSdk = 34
@@ -18,6 +31,11 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL", prop.getProperty("BASE_URL"))
+        buildConfigField("String", "GET_ALL_COUNTRIES", prop.getProperty("ALL_COUNTRIES"))
+        buildConfigField("String", "DATABASE_NAME", prop.getProperty("DATABASE_NAME"))
+        buildConfigField("String", "COUNTRIES_TABLE_NAME", prop.getProperty("COUNTRIES_TABLE_NAME"))
     }
 
     viewBinding{
@@ -48,6 +66,7 @@ dependencies {
     val hilt_version = "2.48"
     val nav_version = "2.5.0"
     val room_version = "2.6.1"
+    val mockk_Version = "1.12.2"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -90,6 +109,18 @@ dependencies {
     // Room
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
+
+    //Glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    //Shimmer
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    //Mockk
+    testImplementation("io.mockk:mockk:$mockk_Version")
+
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
 
 
