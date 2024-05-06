@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide
 import com.wimobile.wmcountriesapp.databinding.ItemCountryBinding
 import com.wimobile.wmcountriesapp.domain.model.CountryDomain
 
-class CountryViewHolder(view: View) : ViewHolder(view) {
+class CountryViewHolder(val view: View) : ViewHolder(view) {
 
     private val binding = ItemCountryBinding.bind(view)
 
@@ -15,12 +15,12 @@ class CountryViewHolder(view: View) : ViewHolder(view) {
     private val countryCapital = binding.tvCountryCapital
 
     fun render(country: CountryDomain) {
-        countryName.text = if (country.name?.official != null) country.name.official
-        else ""
+        countryName.text = country.name?.official ?: ""
 
         countryCapital.text = if (country.capital.isNotEmpty()) country.capital.first()
         else "No capital"
 
-        Glide.with(countryFlag.context).load(country.flags?.png).into(countryFlag)
+        val flagUrl: String = country.flags?.png ?: ""
+        Glide.with(countryFlag.context).load(flagUrl).into(countryFlag)
     }
 }

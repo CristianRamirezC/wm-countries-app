@@ -12,8 +12,8 @@ import com.wimobile.wmcountriesapp.ui.viewModel.CountriesViewModel
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.appcompat.widget.SearchView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wimobile.wmcountriesapp.ui.view.adapter.CountryAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -45,14 +45,23 @@ class CountryListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchView = _binding.searchBarSV
-        recyclerView = _binding.recyclerCountriesRV
-
+        setUpViewBinding()
         initRecyclerView()
         setUpViews()
         setUpLiveDataObservers()
 
     }//end of onViewCreated
+
+    override fun onResume() {
+        super.onResume()
+        searchView.setQuery("", false)
+//        countriesViewModel.onSearchBarChanged("")
+    }
+
+    private fun setUpViewBinding() {
+        searchView = _binding.searchBarSV
+        recyclerView = _binding.recyclerCountriesRV
+    }
 
     private fun setUpViews() {
 
@@ -73,17 +82,44 @@ class CountryListFragment : Fragment() {
 
     private fun setUpLiveDataObservers() {
         countriesViewModel.countrySearchResultLiveData.observe(viewLifecycleOwner) {
-            recyclerView.adapter = CountryAdapter(it)
+            recyclerView.adapter = CountryAdapter(it) {
+                navigateToCountryDetail(it)
+            }
         }
 
         countriesViewModel.countriesListLiveData.observe(viewLifecycleOwner) {
-            recyclerView.adapter = CountryAdapter(it)
+            recyclerView.adapter = CountryAdapter(it) {
+                navigateToCountryDetail(it)
+            }
         }
     }
 
     private fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext)
-        recyclerView.adapter = CountryAdapter(listOf())
+        recyclerView.adapter = CountryAdapter(listOf()) {
+            navigateToCountryDetail(it)
+        }
+    }
+
+    private fun navigateToCountryDetail(officialName: String) {
+        try {
+            val direction: NavDirections =
+                CountryListFragmentDirections
+                    .actionCountryListFragmentToCountryDetailsFragment(officialName)
+
+            val navController = findNavController()
+            navController.navigate(direction)
+        } catch (e: Exception) {
+            Log.e("navigateToCountryDetail", e.stackTraceToString())
+        }
+    }
+
+    private fun setOnClickListeners() {
+        try {
+
+        } catch (e: Exception) {
+            Log.e("setOnClickListenersException", e.stackTraceToString())
+        }
     }
 
 }//end of CountryListFragment

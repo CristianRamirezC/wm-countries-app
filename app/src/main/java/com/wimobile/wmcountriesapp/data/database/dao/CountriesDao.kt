@@ -25,4 +25,7 @@ interface CountriesDao {
             "OR official_name LIKE '%' || :name || '%'")
     suspend fun getCountriesByName(name: String): List<CountryEntity>
 
+    @Query("SELECT * FROM $tableName WHERE official_name = :name")
+    suspend fun getCountryByOfficialName(name: String): CountryEntity
+
 }

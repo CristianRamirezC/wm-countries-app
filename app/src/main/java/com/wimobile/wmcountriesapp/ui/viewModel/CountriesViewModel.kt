@@ -9,6 +9,7 @@ import com.wimobile.wmcountriesapp.domain.model.CountryDomain
 import com.wimobile.wmcountriesapp.domain.useCases.GetAllCountriesUseCase
 import com.wimobile.wmcountriesapp.domain.useCases.GetCountryByFifaUseCase
 import com.wimobile.wmcountriesapp.domain.useCases.GetCountriesByNameUseCase
+import com.wimobile.wmcountriesapp.domain.useCases.GetCountryByOfficialNameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class CountriesViewModel @Inject constructor(
     private val getAllCountriesUseCase: GetAllCountriesUseCase,
     private val getCountryByFifaUseCase: GetCountryByFifaUseCase,
-    private val getCountriesByNameUseCase: GetCountriesByNameUseCase
+    private val getCountriesByNameUseCase: GetCountriesByNameUseCase,
+    private val getCountryByOfficialNameUseCase: GetCountryByOfficialNameUseCase
 ) : ViewModel() {
 
     private var _countriesListLivaData: MutableLiveData<List<CountryDomain>> = MutableLiveData()
@@ -34,19 +36,12 @@ class CountriesViewModel @Inject constructor(
         MutableLiveData()
     val countrySearchResultLiveData: LiveData<List<CountryDomain>> = _countrySearchResultLiveData
 
-    private var _searchBarLiveData: MutableLiveData<String> = MutableLiveData()
-    val searchBarLiveData: LiveData<String> = _searchBarLiveData
-
-    private var _isLoginButtonEnableLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    val isLoginButtonEnableLiveData: LiveData<Boolean> = _isLoginButtonEnableLiveData
-
     private var _isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val isLoadingLiveData: LiveData<Boolean> = _isLoadingLiveData
 
     fun onSearchBarChanged(searchBarString: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                _searchBarLiveData.postValue(searchBarString ?: "")
                 val barString: String = searchBarString ?: ""
                 val countriesByNameList: List<CountryDomain> = getCountriesByNameUseCase(barString)
                 if (countriesByNameList.isNotEmpty()) {
@@ -57,22 +52,6 @@ class CountriesViewModel @Inject constructor(
             }
         }
 
-    }
-
-    fun onSearchButtonPressed() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val searchBarString: String = _searchBarLiveData.value ?: ""
-                val countriesSearchResult: List<CountryDomain> = if (searchBarString.isBlank()) {
-                    getAllCountriesUseCase()
-                } else {
-                    getCountriesByNameUseCase(searchBarString)
-                }
-                _countrySearchResultLiveData.postValue(countriesSearchResult)
-            } catch (e: Exception) {
-                Log.e("onSearchButtonPressedException", e.stackTraceToString())
-            }
-        }
     }
 
     fun getAllCountries() {
@@ -87,20 +66,32 @@ class CountriesViewModel @Inject constructor(
         }
     }
 
-    fun getCountryByFifa(fifa: String) {
+//    fun getCountryByFifa(fifa: String) {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                val country: CountryDomain? = getCountryByFifaUseCase(fifa)
+//                if (country != null) {
+//                    _countryToDisplayDetailLiveData.postValue(country!!)
+//                }
+//            } catch (e: Exception) {
+//                Log.e("getCountryByFifaException", e.stackTraceToString())
+//            }
+//        }
+//    }
+
+    fun getCountryByOfficialName(officialName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val country: CountryDomain? = getCountryByFifaUseCase(fifa)
-                if (country != null) {
-                    _countryToDisplayDetailLiveData.postValue(country!!)
-                }
+                val country = getCountryByOfficialNameUseCase(officialName)
+                _countryToDisplayDetailLiveData.postValue(country)
+
             } catch (e: Exception) {
-                Log.e("getCountryByFifaException", e.stackTraceToString())
+                Log.e("getCountryByOfficialNameException", e.stackTraceToString())
             }
         }
     }
 
-    fun getBorderCountriesInformation(borders: List<String>) {
+    fun getBorderCountries(borders: List<String>) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val countries: MutableList<CountryDomain> = mutableListOf()

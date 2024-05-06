@@ -53,5 +53,8 @@ class CountriesRepository @Inject constructor(
         }
     }
 
+    suspend fun getCountryByOfficialName(name: String): CountryDomain {
+        return countriesDao.getCountryByOfficialName(name).toDomain()
+    }
 
 }
