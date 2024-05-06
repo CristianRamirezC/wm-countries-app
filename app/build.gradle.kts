@@ -24,8 +24,6 @@ android {
 
     defaultConfig {
 
-
-
         applicationId = "com.wimobile.wmcountriesapp"
         minSdk = 24
         targetSdk = 34
