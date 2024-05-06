@@ -3,7 +3,6 @@ desarrollado en:
 - Android Gradle Plugin 8.3.2
 - Gradle version 8.4
 - JDK 17.0.9
-- Git branch: Develop
 
 # Capas propuestas
 Se desarrolla con una arquitectura Clean y patrón de presentación MVVM:
