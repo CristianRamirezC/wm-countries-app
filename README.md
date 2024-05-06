@@ -6,10 +6,16 @@ desarrollado en:
 
 # Capas propuestas
 Se desarrolla con una arquitectura Clean y patrón de presentación MVVM:  
-Capa de Data: Se responsabiliza de configurar las fuentes de información (API, DDBB, etc) y de los modelos de datos, a demás de los repositorios que hacen uso de dichas fuentes de datos para proveer información  
-Capa de Domain: Se hace uso de los repositorios para desarrollar la lógica de negocio  
-Capa de UI: Se desarrolla los ViewModel y las vistas. El viewModel por medio de los casos de uso, obtiene la información solicitada por las vistas y  
-envía dicha información por medio de observables a los cuales las vistas están previamente suscritas  
+<ul>
+  <li>Capa de Data: Se responsabiliza de configurar las fuentes de información (API, DDBB, etc) y de los modelos de datos, a demás de los repositorios que hacen uso de dichas fuentes de datos para proveer información.  </li>
+  <li>Capa de Domain: Se hace uso de los repositorios para desarrollar la lógica de negocio.  </li>
+  <li>Capa de Domain: Se hace uso de los repositorios para desarrollar la lógica de negocio.  </li>
+  <li>Capa de UI: Se desarrolla los ViewModel y las vistas. El viewModel por medio de los casos de uso, obtiene la información solicitada por las vistas y  
+envía dicha información por medio de observables a los cuales las vistas están previamente suscritas</li>
+</ul>
+
+
+  
 
 # ScreenShots
 <img src="images/CountriesApp1.jpg" width = "300" height="600">  
