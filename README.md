@@ -27,7 +27,7 @@ envía dicha información por medio de observables a los cuales las vistas está
   <li>Recycler View</li>
   <li>Gson</li>
   <li>Glide</li>
-  <li>Room Type convertes</li>
+  <li>Room Type converters</li>
   <li>Unit testing con Junit y Mockk</li>
   <li>Shimmer View</li>
   <li>ViewBinding</li>
