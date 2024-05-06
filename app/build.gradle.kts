@@ -68,6 +68,7 @@ dependencies {
     val hilt_version = "2.48"
     val nav_version = "2.5.0"
     val room_version = "2.6.1"
+    val mockk_Version = "1.12.2"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -117,7 +118,11 @@ dependencies {
     //Shimmer
     implementation("com.facebook.shimmer:shimmer:0.5.0")
 
+    //Mockk
+    testImplementation("io.mockk:mockk:$mockk_Version")
 
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
 
 

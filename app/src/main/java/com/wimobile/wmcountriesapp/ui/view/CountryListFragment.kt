@@ -80,7 +80,7 @@ class CountryListFragment : Fragment() {
                 return false
             }
         })
-        
+
     }
 
     private fun setUpLiveDataObservers() {
