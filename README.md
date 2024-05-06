@@ -21,6 +21,7 @@ envía dicha información por medio de observables a los cuales las vistas está
   <li>Inyección de dependencias con Dagger Hilt</li>
   <li>Bases de datos con Room</li>
   <li>Corrutinas</li>
+  <li>LiveData</li>
   <li>Recycler View</li>
   <li>Navigation Component</li>
   <li>Consumo de API con corrutinas</li>
