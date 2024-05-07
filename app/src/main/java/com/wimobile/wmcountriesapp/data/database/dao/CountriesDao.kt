@@ -15,7 +15,7 @@ interface CountriesDao {
     @Query("SELECT * FROM $tableName")
     suspend fun getAllCountries(): List<CountryEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAllCountries(countries: List<CountryEntity>)
 
     @Query("SELECT * FROM $tableName WHERE fifa = :fifa")
